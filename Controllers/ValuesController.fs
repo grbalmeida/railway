@@ -1,4 +1,4 @@
-﻿namespace railway.Controllers
+﻿namespace Railway.Controllers
 
 open System
 open System.Collections.Generic
