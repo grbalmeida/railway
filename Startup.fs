@@ -1,4 +1,4 @@
-namespace railway
+namespace Railway
 
 open System
 open System.Collections.Generic

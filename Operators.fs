@@ -1,4 +1,4 @@
 module Operators
 
-let (^) firstString secondString
+let (^) firstString secondString =
     sprintf "%s%s" firstString secondString

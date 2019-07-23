@@ -1,4 +1,4 @@
-namespace railway
+namespace Railway
 
 open System
 open System.Collections.Generic
@@ -18,8 +18,14 @@ module Program =
             .CreateDefaultBuilder(args)
             .UseStartup<Startup>();
 
+    let initializeDatabase(baseDirectory) =
+        Persistence.getContext(baseDirectory)
+        |> ignore
+
     [<EntryPoint>]
     let main args =
+        initializeDatabase(@"/")
+        |> ignore
         CreateWebHostBuilder(args).Build().Run()
 
         exitCode

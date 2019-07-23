@@ -1,6 +1,7 @@
 module Persistence
 
 open Operators
+open Wrappers
 
 type Table<'e> = {
     File: string
@@ -12,6 +13,11 @@ type Context = {
     Texts: Table<string>
 }
 
+let saveTable table =
+    Json.serialize table.Data
+    |> File.save table.File
+    table
+
 let initializeTable baseDirectory file initialData =
     let table = {
         File = baseDirectory ^ file
@@ -19,11 +25,6 @@ let initializeTable baseDirectory file initialData =
     }
 
     saveTable table
-
-let saveTable table =
-    Json.serialize table.Data
-    |> File.save table.file
-    table
 
 let loadTable<'e> file =
     let data = File.openFile file
@@ -33,17 +34,24 @@ let loadTable<'e> file =
         Data = data
     }
 
+let createTableForApplication<'e> baseDirectory file initialData =
+    let fullFile = baseDirectory ^ file
+    let fileExists = File.exists fullFile
+    match fileExists with
+    | true -> loadTable<'e> fullFile
+    | false -> initializeTable baseDirectory fullFile initialData
+
 let getContext baseDirectory =
     let context = {
-        Integers = initializeTable
+        Integers = createTableForApplication
                         baseDirectory
                         "/Integers.json"
-                        []
+                        [1 ; 2 ; 3]
 
-        Texts = initializeTable
+        Texts = createTableForApplication
                         baseDirectory
                         "/Texts.json"
-                        []
+                        ["Test" ; "Text"]
     }
 
     context
