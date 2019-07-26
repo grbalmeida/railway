@@ -1,5 +1,6 @@
 module Persistence
 
+open Domain
 open Operators
 open Wrappers
 
@@ -9,8 +10,9 @@ type Table<'e> = {
 }
 
 type Context = {
-    Integers: Table<int>
-    Texts: Table<string>
+    Customers: Table<Customer>
+    Products: Table<Product>
+    Purchases: Table<Purchase>
 }
 
 let saveTable table =
@@ -41,18 +43,45 @@ let createTableForApplication<'e> baseDirectory file initialData =
     | true -> loadTable<'e> fullFile
     | false -> initializeTable baseDirectory fullFile initialData
 
-let initialIntegers = [1 ; 2 ; 3]
+let initialCustomers = 
+    [
+        {
+            Id = 1
+            Age = 23
+            Name = "John"
+            LastName = "Silva"
+            CPF = "021.231.231-21"
+            Email = "john@test.com"
+            Phone = "99887766"
+            Address = "John Address"
+        };
+        {
+            Id = 2
+            Age = 21
+            Name = "Maria"
+            LastName = "Souza"
+            CPF = "123.321.123-21"
+            Email = "maria@test.com"
+            Phone = "99881122"
+            Address = "Maria Address"
+        }
+    ]
 
 let getContext() =
     let baseDirectory = Settings.tablesDirectory
     {
-        Integers = createTableForApplication
+        Customers = createTableForApplication
                         baseDirectory
-                        "/Integers.json"
-                        initialIntegers
-
-        Texts = createTableForApplication
+                        "/Customers.json"
+                        initialCustomers
+        
+        Products = createTableForApplication
                         baseDirectory
-                        "/Texts.json"
-                        ["Test" ; "Text"]
+                        "/Products.json"
+                        []
+        
+        Purchases = createTableForApplication
+                        baseDirectory
+                        "/Purchases.json"
+                        []
     }

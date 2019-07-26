@@ -9,8 +9,7 @@ type ValuesController () =
 
     [<HttpGet>]
     member this.Get() =
-        let context = Persistence.getContext()
-        context.Integers.Data
+        Persistence.getContext().Customers.Data
 
     [<HttpGet("{id}")>]
     member this.Get(id:int) =
