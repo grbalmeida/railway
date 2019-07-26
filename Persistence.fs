@@ -41,17 +41,18 @@ let createTableForApplication<'e> baseDirectory file initialData =
     | true -> loadTable<'e> fullFile
     | false -> initializeTable baseDirectory fullFile initialData
 
-let getContext baseDirectory =
-    let context = {
+let initialIntegers = [1 ; 2 ; 3]
+
+let getContext() =
+    let baseDirectory = Settings.tablesDirectory
+    {
         Integers = createTableForApplication
                         baseDirectory
                         "/Integers.json"
-                        [1 ; 2 ; 3]
+                        initialIntegers
 
         Texts = createTableForApplication
                         baseDirectory
                         "/Texts.json"
                         ["Test" ; "Text"]
     }
-
-    context

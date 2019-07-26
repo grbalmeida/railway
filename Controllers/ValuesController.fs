@@ -1,9 +1,5 @@
 ﻿namespace Railway.Controllers
 
-open System
-open System.Collections.Generic
-open System.Linq
-open System.Threading.Tasks
 open Microsoft.AspNetCore.Mvc
 
 [<Route("api/[controller]")>]
@@ -13,8 +9,8 @@ type ValuesController () =
 
     [<HttpGet>]
     member this.Get() =
-        let values = [|"value1"; "value2"|]
-        ActionResult<string[]>(values)
+        let context = Persistence.getContext()
+        context.Integers.Data
 
     [<HttpGet("{id}")>]
     member this.Get(id:int) =
