@@ -10,6 +10,7 @@
     <Compile Include="Settings.fs" />
     <Compile Include="Domain.fs" />
     <Compile Include="Persistence.fs" />
+    <Compile Include="Transport.fs" />
     <Compile Include="Services.fs" />
     <Compile Include="Controllers/ValuesController.fs" />
     <Compile Include="Controllers/CustomersController.fs" />

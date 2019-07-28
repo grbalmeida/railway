@@ -2,6 +2,7 @@ namespace Services
 
 open Domain
 open Persistence
+open Transport.Filters
 
 module CustomerService =
     let getCustomers() =
@@ -39,14 +40,22 @@ module CustomerService =
         getCustomers().Data
         |> List.filter filter
 
-    let getCustomerByCpf cpf =
+    let getByCpf cpf =
         filterCustomersTableBy
             (fun customer -> customer.CPF = cpf)
 
-    let getCustomerByName name =
+    let getByName name =
         filterCustomersTableBy
             (fun customer -> customer.Name = name)
 
     let getById id =
         getCustomers().Data
         |> List.tryFind (fun customer -> customer.Id = id)
+
+    let getBy filter =
+        filterCustomersTableBy
+            (fun customer ->
+                customer.CPF = filter.CPF
+                && (customer.Name.Contains filter.Name
+                    || customer.LastName.Contains filter.Name)
+                && customer.Age = filter.Age)

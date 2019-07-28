@@ -23,6 +23,10 @@ type CustomersController() =
     member this.GetByName(name) =
         CustomerService.getByName name
 
+    [<HttpGet>]
+    member this.GetBy([<FromQuery>] filter) =
+        CustomerService.getBy filter
+
     [<HttpPost>]
     member this.Add(customer) =
         CustomerService.addCustomer customer
