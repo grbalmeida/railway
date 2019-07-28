@@ -1,5 +1,6 @@
 namespace Services
 
+open Operators
 open Domain
 open Persistence
 open Transport.Filters
@@ -55,7 +56,7 @@ module CustomerService =
     let getBy filter =
         filterCustomersTableBy
             (fun customer ->
-                customer.CPF = filter.CPF
-                && (customer.Name.Contains filter.Name
-                    || customer.LastName.Contains filter.Name)
-                && customer.Age = filter.Age)
+                (!!customer.CPF || customer.CPF = filter.CPF)
+                && (customer.Name <~ filter.Name
+                    || customer.LastName <~ filter.Name)
+                && customer.Age = 0 || customer.Age = filter.Age)
