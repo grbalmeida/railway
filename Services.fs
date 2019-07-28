@@ -24,3 +24,13 @@ module CustomerService =
     let deleteCustomer id =
         updateCustomersTable (fun table ->
             deleteCustomerById id [] table.Data)
+
+    let updateCustomer customer =
+        let removeAndAdd table =
+            customer ::
+            (deleteCustomerById
+                customer.Id
+                []
+                table.Data)
+
+        updateCustomersTable (removeAndAdd)

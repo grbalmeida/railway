@@ -18,3 +18,7 @@ type CustomersController() =
     [<HttpDelete>]
     member this.Delete(id) =
         CustomerService.deleteCustomer id
+
+    [<HttpPut>]
+    member this.Update(customer) =
+        CustomerService.updateCustomer customer
