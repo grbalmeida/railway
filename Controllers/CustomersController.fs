@@ -9,7 +9,19 @@ type CustomersController() =
 
     [<HttpGet>]
     member this.GetAll() =
-        Persistence.getContext().Customers.Data
+        CustomerService.getAll()
+
+    [<HttpGet>]
+    member this.GetById(id) =
+        CustomerService.getById id
+
+    [<HttpGet>]
+    member this.GetByCpf(cpf) =
+        CustomerService.getByCpf cpf
+    
+    [<HttpGet>]
+    member this.GetByName(name) =
+        CustomerService.getByName name
 
     [<HttpPost>]
     member this.Add(customer) =
