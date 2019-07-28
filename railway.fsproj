@@ -11,7 +11,9 @@
     <Compile Include="Domain.fs" />
     <Compile Include="Persistence.fs" />
     <Compile Include="Transport.fs" />
+    <Compile Include="ServiceEntity.fs" />
     <Compile Include="CustomerService.fs" />
+    <Compile Include="ProductService.fs" />
     <Compile Include="Controllers/ValuesController.fs" />
     <Compile Include="Controllers/CustomersController.fs" />
     <Compile Include="Startup.fs" />

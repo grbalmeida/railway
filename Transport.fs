@@ -7,3 +7,9 @@ module Filters =
         CPF: string
         Age: int
     }
+
+    [<CLIMutable>]
+    type ProductFilter = {
+        Description: string
+        MaximumPrice: double
+    }
