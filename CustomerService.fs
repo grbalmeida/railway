@@ -1,4 +1,4 @@
-namespace Services
+module CustomerService
 
 open Operators
 open Domain

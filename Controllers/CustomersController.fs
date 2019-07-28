@@ -1,7 +1,7 @@
 namespace Railway.Controllers
 
 open Microsoft.AspNetCore.Mvc
-open Services
+open CustomerService
 
 [<Route("api/[controller]/[action]")>]
 type CustomersController() =
