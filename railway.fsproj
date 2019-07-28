@@ -14,6 +14,7 @@
     <Compile Include="ServiceEntity.fs" />
     <Compile Include="CustomerService.fs" />
     <Compile Include="ProductService.fs" />
+    <Compile Include="PurchaseService.fs" />
     <Compile Include="Controllers/ValuesController.fs" />
     <Compile Include="Controllers/CustomersController.fs" />
     <Compile Include="Controllers/ProductsController.fs" />
