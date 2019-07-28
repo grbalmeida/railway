@@ -1,7 +1,5 @@
 namespace Railway.Controllers
 
-open System
-open System.Net.Http
 open Microsoft.AspNetCore.Mvc
 open Services
 
@@ -16,3 +14,7 @@ type CustomersController() =
     [<HttpPost>]
     member this.Add(customer) =
         CustomerService.addCustomer customer
+
+    [<HttpDelete>]
+    member this.Delete(id) =
+        CustomerService.deleteCustomer id
