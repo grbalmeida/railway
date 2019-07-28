@@ -16,6 +16,7 @@
     <Compile Include="ProductService.fs" />
     <Compile Include="Controllers/ValuesController.fs" />
     <Compile Include="Controllers/CustomersController.fs" />
+    <Compile Include="Controllers/ProductsController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
