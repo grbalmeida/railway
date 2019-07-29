@@ -4,6 +4,7 @@ open Operators
 open Domain
 open Persistence
 open Transport.Filters
+open Transport.Responses
 
 module CustomerService =
     let getCustomers() =
@@ -50,8 +51,12 @@ module CustomerService =
             (fun customer -> customer.Name = name)
 
     let getById id =
-        getCustomers().Data
-        |> List.tryFind (fun customer -> customer.Id = id)
+        let customer = 
+            getCustomers().Data
+            |> List.tryFind (fun customer -> customer.Id = id)
+        match customer with
+        | Some customer -> CustomerResponse.Transform customer |> Some
+        | None -> None
 
     let getBy filter =
         filterCustomersTableBy
