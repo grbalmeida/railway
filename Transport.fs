@@ -37,6 +37,21 @@ module Responses =
                 Address = customer.Address
             }
 
+    type ProductResponse = {
+        Id: int
+        Description: string
+        Details: string
+        Price: double
+    } with
+        static member
+            Transform (product : Product) =
+            {
+                Id = product.Id
+                Description = product.Description
+                Details = product.Details
+                Price = product.Price   
+            }
+
     type PurchaseResponse = {
         Id: int
         Customer: CustomerResponse

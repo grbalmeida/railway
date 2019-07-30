@@ -9,11 +9,17 @@ open Transport.Responses
 module CustomerService =
     let getCustomers() =
         getContext().Customers
+
+    let transformListIntoResponse =
+        List.map (CustomerResponse.Transform)
+
+    let getFromDatabaseById id =
+        getCustomers().Data
+        |> List.tryFind (fun customer -> customer.Id = id)
     
     let updateCustomersTable functionToReceiveNewData =
-        let table = getCustomers()
-        let data = functionToReceiveNewData table
-        saveTable {table with Data = data}
+        getCustomers()
+        |> ServiceEntity.updateTable functionToReceiveNewData
 
     let addCustomer customer =
         updateCustomersTable (fun table -> customer :: table.Data)
@@ -21,10 +27,6 @@ module CustomerService =
     let deleteCustomerById id (customersList : Customer list) =
         customersList
         |> List.filter (fun customer -> customer.Id <> id)
-
-    let deleteCustomer id =
-        updateCustomersTable (fun table ->
-            deleteCustomerById id table.Data)
 
     let updateCustomer customer =
         let removeAndAdd table =
@@ -35,8 +37,25 @@ module CustomerService =
 
         updateCustomersTable (removeAndAdd)
 
-    let getAll() =
+    let getAllDataFromDatabase() =
         getCustomers().Data
+
+    let getNoCustomerWithId id (list : Customer list) =
+        list
+        |> List.filter
+            (fun customer -> customer.Id <> id)
+
+    let deleteCustomerFromDatabase id =
+        updateCustomersTable
+            (fun table -> getNoCustomerWithId id table.Data)
+
+    let deleteCustomer =
+        deleteCustomerFromDatabase
+        >> transformListIntoResponse
+
+    let getAll =
+        getAllDataFromDatabase
+        >> transformListIntoResponse
 
     let filterCustomersTableBy filter =
         getCustomers().Data
@@ -51,17 +70,16 @@ module CustomerService =
             (fun customer -> customer.Name = name)
 
     let getById id =
-        let customer = 
-            getCustomers().Data
-            |> List.tryFind (fun customer -> customer.Id = id)
-        match customer with
-        | Some customer -> CustomerResponse.Transform customer |> Some
-        | None -> None
+        getFromDatabaseById
+        >> Option.map (CustomerResponse.Transform)
 
-    let getBy filter =
+    let getFromDatabaseByFilter (filter : CustomerFilter) =
         filterCustomersTableBy
             (fun customer ->
-                (!!customer.CPF || customer.CPF = filter.CPF)
-                && (customer.Name <~ filter.Name
-                    || customer.LastName <~ filter.Name)
-                && customer.Age = 0 || customer.Age = filter.Age)
+                (!!filter.CPF || customer.CPF = filter.CPF)
+                && (customer.Name <~ filter.Name || customer.LastName <~ filter.Name)
+                && (filter.Age = 0 || customer.Age = filter.Age))
+
+    let getBy =
+        getFromDatabaseByFilter
+        >> transformListIntoResponse

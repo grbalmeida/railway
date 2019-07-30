@@ -4,9 +4,13 @@ open Operators
 open Domain
 open Persistence
 open Transport.Filters
+open Transport.Responses
 
 let getProducts() =
     getContext().Products
+
+let transformListIntoResponse =
+    List.map (ProductResponse.Transform)
 
 let updateProductTable functionToReceiveNewData =
     getProducts()
@@ -32,12 +36,20 @@ let updateProduct product =
 
     updateProductTable (removeAndAdd)
 
-let getAll() =
+let getAllDataFromDatabase() =
     getProducts().Data
 
-let getById id =
+let getFromDatabaseById id =
     getProducts().Data
     |> List.tryFind (fun product -> product.Id = id)
+
+let getAll() =
+    getAllDataFromDatabase
+    >> transformListIntoResponse
+
+let getById id =
+    getFromDatabaseById
+    >> Option.map (ProductResponse.Transform)
 
 let getBy (filter : ProductFilter) =
     filterProductTableBy
